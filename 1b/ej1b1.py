@@ -46,25 +46,31 @@ from typing import List
 
 def mcd(a: int, b: int) -> int:
     while b:
-        
-    return a
+        a, b = b, a % b
+    return abs(a)
 
 
 def mcd_list(numbers: List[int]) -> int:
-    result = 
+    if not numbers:
+        return 0
+    result = numbers[0]
     for number in numbers[1:]:
-        result = 
+        result = mcd(result, number)
     return result
 
 
 def mcm(a: int, b: int) -> int:
-    return 
+    if a == 0 or b == 0:
+        return 0
+    return abs(a * b) // mcd(a, b)
 
 
 def mcm_list(numbers: List[int]) -> int:
-    result = 
+    if not numbers:
+        return 0
+    result = numbers[0]
     for number in numbers[1:]:
-        result = 
+        result = mcm(result, number)
     return result
 
 

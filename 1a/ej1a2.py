@@ -67,22 +67,46 @@ import pytz
 
 def create_event(name: str, datetime_start: datetime, timezone_str: str) -> Dict[str, str]:
     # Write here your code
-    pass
+    tz = pytz.timezone(timezone_str)
+    dt = tz.localize(datetime_start)
+    event = {
+        "name": name,
+        "datetime_start": dt,
+        "timezone": timezone_str
+    }
+    return event
 
 
 def time_until_event(event: Dict[str, str]) -> timedelta:
     # Write here your code
-    pass
+    tz = pytz.timezone(event['timezone'])
+    return event['datetime_start'] - datetime.now(tz)
 
 
 def change_event_timezone(event: Dict[str, str], new_timezone_str: str) -> Dict[str, str]:
     # Write here your code
-    pass
-
+    event['timezone'] = new_timezone_str
+    tz = pytz.timezone(new_timezone_str)
+    event['datetime_start'] = event['datetime_start'].astimezone(tz)
+    return event
+    
 
 def find_next_event(events: List[Dict[str, str]]) -> Optional[Dict[str, str]]:
     # Write here your code
-    pass
+    now = datetime.now(pytz.utc)
+    future_events = [
+        event for event in events
+        if event['datetime_start'].astimezone(pytz.utc) >= now
+    ]
+
+    if not future_events:
+        return None
+
+    return min(
+        future_events,
+        key=lambda event: event['datetime_start'].astimezone(pytz.utc)
+    )
+
 
 
 # Para probar el código, descomenta las siguientes líneas

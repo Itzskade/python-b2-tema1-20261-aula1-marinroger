@@ -44,30 +44,35 @@ from typing import List
 def quicksort(arr: List[int]) -> List[int]:
     if len(arr) <= 1:
         return arr
-    pivot = 
-    left = 
-    middle = 
-    right = 
+    pivot = arr[0]
+    left = [n for n in arr if n < pivot]
+    middle = [n for n in arr if n == pivot]
+    right = [n for n in arr if n > pivot]
     return quicksort(left) + middle + quicksort(right)
 
 
 def mergesort(arr: List[int]) -> List[int]:
     if len(arr) <= 1:
         return arr
-    middle = 
-    left = 
-    right = 
+    middle = len(arr) // 2
+    left = arr[:middle]
+    right = arr[middle:]
+    left = mergesort(left)
+    right = mergesort(right)
     return merge(left, right)
 
 
 def merge(left: List[int], right: List[int]) -> List[int]:
-    result =
+    result = []
     while left and right:
-        if left[0] < 
-            result.append()
+        if left[0] <= right[0]:
+            result.append(left[0])
+            left.pop(0)
         else:
-            result.append()
-    result.extend()
+            result.append(right[0])
+            right.pop(0)
+    result.extend(left)
+    result.extend(right)
     return result
 
 
